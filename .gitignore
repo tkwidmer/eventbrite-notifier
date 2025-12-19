@@ -1,0 +1,13 @@
+# Configuration file with sensitive API tokens
+config
+
+# Log files
+eventbrite_monitor.log
+*.log
+
+# macOS system files
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp

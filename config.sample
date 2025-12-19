@@ -1,0 +1,11 @@
+# Eventbrite Monitor Configuration
+# Copy this file to 'config' and update the values below
+
+# Your Eventbrite event ID (found in the event URL)
+EVENT_ID="YOUR_EVENT_ID_HERE"
+
+# Your Eventbrite API token (get from https://www.eventbrite.com/platform/api-keys)
+API_TOKEN="YOUR_API_TOKEN_HERE"
+
+# Check interval in seconds (60 = 1 minute)
+CHECK_INTERVAL=60

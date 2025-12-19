@@ -3,10 +3,33 @@
 # Eventbrite Ticket Monitor Script
 # Monitors an Eventbrite event for ticket availability every minute
 
-# Configuration
-EVENT_ID="XXXX"
-API_TOKEN="XXXX"
-CHECK_INTERVAL=60  # seconds
+# Load configuration from config file
+CONFIG_FILE="config"
+
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "❌ Configuration file 'config' not found!"
+    echo "Please copy 'config.sample' to 'config' and update the values:"
+    echo "  cp config.sample config"
+    echo "  # Edit config file with your EVENT_ID and API_TOKEN"
+    exit 1
+fi
+
+# Source the configuration file
+source "$CONFIG_FILE"
+
+# Validate required configuration
+if [ -z "$EVENT_ID" ] || [ "$EVENT_ID" = "YOUR_EVENT_ID_HERE" ]; then
+    echo "❌ EVENT_ID not configured. Please update the 'config' file."
+    exit 1
+fi
+
+if [ -z "$API_TOKEN" ] || [ "$API_TOKEN" = "YOUR_API_TOKEN_HERE" ]; then
+    echo "❌ API_TOKEN not configured. Please update the 'config' file."
+    exit 1
+fi
+
+# Set defaults if not specified in config
+CHECK_INTERVAL=${CHECK_INTERVAL:-60}
 LOG_FILE="eventbrite_monitor.log"
 
 # Colors for output

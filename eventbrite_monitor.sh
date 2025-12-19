@@ -43,6 +43,11 @@ log_message() {
     echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
 }
 
+# Function to echo with timestamp
+echo_with_timestamp() {
+    echo -e "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
+
 # Function to send system notification (macOS)
 send_notification() {
     local title="$1"
@@ -105,12 +110,12 @@ main() {
             
             if [ "$tickets_available" = "true" ]; then
                 if [ "$last_status" != "available" ]; then
-                    echo -e "${GREEN}🎉 TICKETS AVAILABLE!${NC}"
+                    echo_with_timestamp "${GREEN}🎉 TICKETS AVAILABLE!${NC}"
                     log_message "ALERT: Tickets are now available for: $event_name"
                     send_notification "Eventbrite Alert" "Tickets available for: $event_name"
                     last_status="available"
                 else
-                    echo -e "${GREEN}✓ Tickets still available${NC}"
+                    echo_with_timestamp "${GREEN}✓ Tickets still available${NC}"
                 fi
             else
                 local status_msg="No tickets available"
@@ -119,16 +124,16 @@ main() {
                 fi
                 
                 if [ "$last_status" != "unavailable" ]; then
-                    echo -e "${YELLOW}⏳ $status_msg${NC}"
+                    echo_with_timestamp "${YELLOW}⏳ $status_msg${NC}"
                     log_message "INFO: $status_msg for: $event_name"
                     last_status="unavailable"
                 else
-                    echo -e "${YELLOW}⏳ Still $status_msg${NC}"
+                    echo_with_timestamp "${YELLOW}⏳ Still $status_msg${NC}"
                 fi
             fi
         else
             consecutive_errors=$((consecutive_errors + 1))
-            echo -e "${RED}❌ Error checking tickets (attempt $consecutive_errors)${NC}"
+            echo_with_timestamp "${RED}❌ Error checking tickets (attempt $consecutive_errors)${NC}"
             
             if [ $consecutive_errors -ge 5 ]; then
                 log_message "ERROR: Too many consecutive errors. Stopping monitor."
